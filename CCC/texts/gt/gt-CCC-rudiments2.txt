@@ -1,0 +1,102 @@
+4
+
+21. How many degrees has the Staff?
+Eleven.
+
+22. How may the Staff be enlarged?
+By adding short lines, above and below.
+
+THE STAFF.
+
+Added lines.
+Sixth space.
+Fifth line.
+Fifth space.
+Fourth line.
+Fourth space.
+Third line.
+Third space.
+Second line.
+Second space.
+First line.
+First space.
+Added lines.
+
+Or, if the teacher prefers the old but incor-
+rect naming of the degrees, they are as follows:
+
+Space above.
+Fifth line.
+Fourth space.
+Fourth line.
+Third space.
+Third line.
+Second space.
+Second line.
+First space.
+First line.
+Space below.
+
+23. What characters determine the pitch of
+tones as represented by the staff?
+Clefs.
+
+24. How many Cleft are there in general use?
+Three: the G clef, the F clef, and the C clef. 
+
+G Clef. F Clec. C Clef
+
+25. What does the G clef indicate?
+That the pitches are so arranged as to fix G
+on the second line, with middle C on the added
+line below, thus
+
+            G
+           F
+          E
+         D
+        C
+       B
+      A
+     G
+    F
+   E
+  D
+ C
+
+26. What does the F clef indicate?
+That the pitches are so arranged as to fix F
+on the fourth line, with middle Con the added
+line above, thus:
+
+           C
+          B
+         A
+        G
+       F
+      E
+     D
+    C
+   B
+  A
+ G
+F
+
+27. What does the C clef indicate?
+That the pitches are so arranged as to fix mid
+dle C on the fourth space, and are read the same
+as the G clef, thus:
+
+           G
+          F
+         E
+        D
+       C
+      B
+     A
+    
+   F
+  E
+ D
+C
+
