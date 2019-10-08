@@ -12,7 +12,7 @@ with open(file, 'w') as f:
             f.write(line)
     f.close()
 
-# Get plain text
+# Get positional text data
 print '\t'.join(['x', 'y', 'w', 'h', 'content'])
 with open(file, 'r') as f:
     data = json.loads(f.read())
