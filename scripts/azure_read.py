@@ -9,8 +9,13 @@ from io import BytesIO
 import os
 import sys
 import json
+import glob
 
-image = sys.argv[1]
+indir = sys.argv[1]
+outdir = sys.argv[2]
+
+dirlist = []
+dirlist = glob.glob(os.path.join(indir, '*.jpg'))
 
 # Add your Computer Vision subscription key and endpoint to your environment variables.
 if 'COMPUTER_VISION_SUBSCRIPTION_KEY' in os.environ:
@@ -24,35 +29,38 @@ if 'COMPUTER_VISION_ENDPOINT' in os.environ:
 
 text_recognition_url = endpoint + "vision/v2.0/read/core/asyncBatchAnalyze"
 
-image_path = image
-# Read the image into a byte array
-image_data = open(image_path, "rb").read()
+for image in dirlist:
+    image_path = image
+    # Read the image into a byte array
+    image_data = open(image_path, "rb").read()
 
-headers = {'Ocp-Apim-Subscription-Key': subscription_key, 'Content-Type': 'application/octet-stream'}
-params = {'language': 'unk', 'detectOrientation': 'true'}
-#data = {'url': image_url}
-response = requests.post(text_recognition_url, headers=headers, params=params, data = image_data)
-response.raise_for_status()
+    headers = {'Ocp-Apim-Subscription-Key': subscription_key, 'Content-Type': 'application/octet-stream'}
+    params = {'language': 'unk', 'detectOrientation': 'true'}
+    #data = {'url': image_url}
+    response = requests.post(text_recognition_url, headers=headers, params=params, data = image_data)
+    response.raise_for_status()
 # Extracting text requires two API calls: One call to submit the
 # image for processing, the other to retrieve the text found in the image.
 
 # Holds the URI used to retrieve the recognized text.
-operation_url = response.headers["Operation-Location"]
+    operation_url = response.headers["Operation-Location"]
 
 # The recognized text isn't immediately available, so poll to wait for completion.
-analysis = {}
-poll = True
-while (poll):
-    response_final = requests.get(
-        response.headers["Operation-Location"], headers=headers)
-    analysis = response_final.json()
-    print(json.dumps(analysis)) # edited to capture double quotes
-    time.sleep(1)
-    if ("recognitionResults" in analysis):
-        poll = False
-    if ("status" in analysis and analysis['status'] == 'Failed'):
-        poll = False
-
+    analysis = {}
+    poll = True
+    while (poll):
+        response_final = requests.get(
+            response.headers["Operation-Location"], headers=headers)
+        analysis = response_final.json()
+        out = os.path.join(outdir, os.path.basename(image.rstrip('.jpg') + '.json'), )
+        with open(out, 'w') as outfile:
+            outfile.write(json.dumps(analysis))
+        time.sleep(1)
+        if ("recognitionResults" in analysis):
+            poll = False
+        if ("status" in analysis and analysis['status'] == 'Failed'):
+                poll = False
+    time.sleep(5)
 # polygons = []
 # if ("recognitionResults" in analysis):
 #     # Extract the recognized text, with bounding boxes.
