@@ -8,8 +8,14 @@ from io import BytesIO
 import os
 import sys
 import json
+import glob
+import time
 
-image = sys.argv[1]
+indir = sys.argv[1]
+outdir = sys.argv[2]
+
+dirlist = []
+dirlist = glob.glob(os.path.join(indir, '*.jpg'))
 
 # Add your Computer Vision subscription key and endpoint to your environment variables.
 if 'COMPUTER_VISION_SUBSCRIPTION_KEY' in os.environ:
@@ -23,19 +29,24 @@ if 'COMPUTER_VISION_ENDPOINT' in os.environ:
 
 ocr_url = endpoint + "vision/v2.0/ocr"
 
-image_path = image
-# Read the image into a byte array
-image_data = open(image_path, "rb").read()
+for image in dirlist:
+    image_path = image
+    # Read the image into a byte array
+    image_data = open(image_path, "rb").read()
 
-headers = {'Ocp-Apim-Subscription-Key': subscription_key, 'Content-Type': 'application/octet-stream'}
-params = {'language': 'unk', 'detectOrientation': 'true'}
-#data = {'url': image_url}
-response = requests.post(ocr_url, headers=headers, params=params, data = image_data)
-response.raise_for_status()
+    headers = {'Ocp-Apim-Subscription-Key': subscription_key, 'Content-Type': 'application/octet-stream'}
+    params = {'language': 'unk', 'detectOrientation': 'true'}
+    #data = {'url': image_url}
+    response = requests.post(ocr_url, headers=headers, params=params, data = image_data)
+    response.raise_for_status()
 
-analysis = response.json()
+    analysis = response.json()
 
-print(json.dumps(analysis))
+    out = os.path.join(outdir, os.path.basename(image.rstrip('.jpg') + '.json'), )
+    with open(out, 'w') as outfile:
+        outfile.write(json.dumps(analysis))
+        outfile.close()
+    time.sleep(5)
 
 # Extract the word bounding boxes and text.
 # line_infos = [region["lines"] for region in analysis["regions"]]
